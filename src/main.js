@@ -3,8 +3,9 @@
 import Vue from 'vue'
 import App from './AppBak'
 import route from './route'
+import remO from '@/config/rem'
 Vue.config.productionTip = false
-
+remO.fontSizeReset()
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

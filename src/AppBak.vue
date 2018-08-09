@@ -1,14 +1,47 @@
 <template>
-<section>
-  <h1>test</h1>
-  <router-view></router-view>
+<section class="appbak">
+<svg-icon></svg-icon>
+  <router-view class="app_content"></router-view>
 </section>
 </template>
 <script>
+  import svgIcon from './page/common/svg'
 export default{
-
+  components:{
+    svgIcon
+  }
 }
 </script>
-<style scoped>
+<style>
 
+  html,body,h1,h2,h3,h4,h5,h6,p,span,section,figure,div,ul,li,ol,input,img,form,secion,svg,sub,sup,button,input{
+    margin:0px;
+    padding:0px;
+    box-sizing: border-box;
+    color:rgb(0,0,0);
+  }
+
+  html,body,section,div{
+
+  }
+  ul,li{
+    list-style: none;
+  }
+  input,button{
+    outline:none;
+    border:none;
+  }
+  svg{
+    display: inline-block;
+  }
+  a,p,span{
+    text-decoration: none;
+  }
+  section{
+    display: block;
+  }
+  .app_content{
+    width:100%;
+    height:100%;
+  }
 </style>
