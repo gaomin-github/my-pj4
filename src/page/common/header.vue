@@ -71,6 +71,7 @@
   }
 </script>
 <style lang="scss" scoped>
+  @import '../../assets/style/common.scss';
   button{
     height:1.5rem;
     background: none;
@@ -86,8 +87,7 @@
   height:3rem;
   left:0;
   top:0;
-  z-index: 999;
-  background-color: rgb(85,155,225);
+  z-index: 998;
   display:flex;
   flex-direction: row;
   align-items: center;
@@ -96,10 +96,12 @@
 .absoluteStyle{
   position: absolute;
   top:4rem;
+  background: -webkit-linear-gradient(left,rgba(185,3,185,1), rgba(108,2,106,1));
 }
 .fixedStyle{
   position:fixed;
   top:0;
+  background:$blue;
 }
 
 .head-back,.head-close{

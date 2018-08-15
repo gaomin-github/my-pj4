@@ -1,7 +1,7 @@
 <template>
   <section>
-    <component :is="currentNav"></component>
-    <!--<com-shop></com-shop>-->
+    <!--<component :is="currentNav"></component>-->
+    <com-shop></com-shop>
     <page-foot></page-foot>
   </section>
 </template>
@@ -17,10 +17,17 @@
     components:{
       pageFoot,
       comShop
+    },
+    methods:{
+     test1(){
+    console.log('33333333')
+  }
     }
   }
+
 </script>
 <style scoped>
+
 .home{
   width:100%;
 }

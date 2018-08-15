@@ -6,14 +6,14 @@ export default{
     window.addEventListener('DOMContentLoaded',()=>{
       let clientX=document.body.clientWidth
       document.documentElement.style.fontSize=(clientX/320)*12+'px'
-
-      this.fontSizeNum=clientX/320
+      this.fontSizeNum=(clientX/320)*12
     })
     window.addEventListener('resize',()=>{
       let clientX=document.body.clientWidth
       document.documentElement.style.fontSize=(clientX/320)*12+'px'
-      this.fontSizeNum=clientX/320
+      this.fontSizeNum=(clientX/320)*12
     })
+
   },
   //监听页面垂直滚动值
   scrollY:function(){
