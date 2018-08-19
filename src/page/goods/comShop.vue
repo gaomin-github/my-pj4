@@ -62,7 +62,7 @@
         <div class="nav-swiper-pagination"></div>
       </div>
       <section class="recom">
-        <h4>推荐商家</h4>
+        <h4 class="jquerytest">推荐商家</h4>
       </section>
       <section class="recom-filter-container">
         <section class="recom-filter" :class="navFixed?'navFixedStyle':''">
@@ -90,7 +90,6 @@
           </li>
         </section>
       </section>
-
       <modal class="modal-container" v-if="filterShow">
         <!--排序过滤面板-->
         <div v-if="filterNav=='order'" class="filter-nav order-filter">
@@ -140,27 +139,27 @@
           <div class="filt-item">
             <li :class="{filtItemActive:filterParam['brand']}" @click="chooseFilt('brand')">
               <i class="multiple-filt">品</i>
-              <span>品牌商家</span>
+              <span>新用户优惠</span>
             </li>
             <li :class="{filtItemActive:filterParam['send']}" @click="chooseFilt('send')">
               <i class="multiple-filt">保</i>
-              <span>外卖保</span>
+              <span>特价商品</span>
             </li>
             <li :class="{filtItemActive:filterParam['time']}" @click="chooseFilt('time')">
               <i class="multiple-filt">准</i>
-              <span>准时达</span>
+              <span>下单立减</span>
             </li>
             <li :class="{filtItemActive:filterParam['new']}" @click="chooseFilt('new')">
               <i class="multiple-filt">新</i>
-              <span>新店</span>
+              <span>赠品优惠</span>
             </li>
             <li :class="{filtItemActive:filterParam['onpay']}" @click="chooseFilt('onpay')">
               <i class="multiple-filt">付</i>
-              <span>在线支付</span>
+              <span>下单返红包</span>
             </li>
             <li :class="{filtItemActive:filterParam['invoice']}" @click="chooseFilt('invoice')">
               <i class="multiple-filt">票</i>
-              <span>开发票</span>
+              <span>进店领红包</span>
             </li>
           </div>
           <p>人均价格带</p>
@@ -180,80 +179,10 @@
           </div>
         </div>
       </modal>
-
-
-      <ul>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-      </ul>
-      <ul>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-      </ul>
-      <ul>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-      </ul>
-      <ul>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-      </ul>
-      <ul>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-      </ul>
-      <ul>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-      </ul>
-      <ul>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-      </ul>
-      <ul>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-      </ul>
-      <ul>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-        <li>吃撑</li>
-        <li>烧烤</li>
-      </ul>
+      <section class="shop">
+        <scroll-list :pageSize="5">
+        </scroll-list>
+      </section>
     </div>
   </section>
 </template>
@@ -263,9 +192,11 @@
   import remO from '@/config/rem'
   import dataO from '@/config/getApiData'
   import priceNum from '@/assets/jsons/priceNum'
+  import scrollList from '@/page/goods/scrollShopList'
   import '@/assets/swiper.min.css'
   import Swiper from 'swiper'
   import echarts from 'echarts'
+//  import $ from 'jquery'
   export default{
     data:function(){
       return{
@@ -288,6 +219,7 @@
     components:{
       pageHead:header,
       modal,
+      scrollList
     },
     created:function(){
       //处理价格和数量列表
@@ -302,12 +234,17 @@
 //      监听页面大小变化，调整折线图
       window.addEventListener('resize',()=>{
         if(obj.myLineChart) obj.myLineChart.resize()
+        obj.filterShow=false
       })
 //      监听页面滚动
       window.addEventListener('scroll',()=>{
         obj.controlScrollHeader()
-      }
-    )
+        }
+      )
+//      弹出窗显示后禁止滑动页面
+//      window.addEventListener('wheel',(e)=>{
+//        if(obj.filterShow) e.preventDefault()
+//      })
     },
     updated:function(){
 //      初始化折线图
@@ -317,15 +254,18 @@
     watch:{
 //      观察设置的价格节点变化
       currentPriceNode:function() {
-        this.curPriceList
-        this.initLineChart()
+//        this.curPriceList
+//        this.initLineChart()
       },
+      filterShow:function(){
+        if(this.filterShow){
+//          jquery兼用浏览器scroll事件失败
+//          $(document).unbind('scroll')
+//          $(body).off('scroll')
+        }
+      }
     },
     computed:{
-      //列表分类栏和页面头的距离
-      navOffsetTop(){
-        return document.getElementsByClassName('recom-filter-container')[0].offsetTop
-      },
       //完整的价格数量表
       fullPriceList(){
         return this.origPriceNum.map((item)=>{
@@ -360,11 +300,13 @@
             show:false,
           },
           series:[{
-            name:'销量',
             type:'line',
-            smooth:true,
             data:this.fullPriceList,
+            smooth:true,
             showSymbol:false,
+            label:{
+              show:false,
+            },
             lineStyle:{
               color:'rgb(180,180,180)',
               opacity:0,
@@ -375,11 +317,13 @@
             smoothMonotone:'x'
           },
             {
-              name:'销量2',
               type:'line',
-              smooth:true,
               data:this.curPriceList,
+              smooth:true,
               showSymbol:false,
+              label:{
+                show:false,
+              },
               lineStyle:{
                 color:'rgb(23,150,230)',
                 opacity:0,
@@ -390,9 +334,9 @@
               smoothMonotone:'x',
               markPoint:{
                 symbol:'circle',
+                silent:true,
                 data:[
                   {
-                    name:'最大值',
                     value:'￥'+this.currentPriceNode,
                     xAxis:this.currentPriceNode,
                     yAxis:100,
@@ -405,7 +349,6 @@
                     }
                   },
                   {
-                    name:'最小值',
                     value:'￥'+0,
                     xAxis:0,
                     yAxis:100,
@@ -433,20 +376,29 @@
       //控制头部天气栏和列表导航栏是否显示
       controlScrollHeader:function(){
         let scrollY=document.documentElement.scrollTop||document.body.scrollTop
+//        天气栏
         if(scrollY/remO.fontSizeNum>=4){
           this.fixShow=false
         }else{
           this.fixShow=true
         }
-        if(scrollY>=this.navOffsetTop-remO.fontSizeNum*3){
+//        导航栏
+        if(scrollY>=parseInt(this.navOffsetTop()-(remO.fontSizeNum*3)/1)){
+//
           this.navFixed=true
         }else{
           this.navFixed=false
+          this.filterShow=false
         }
       },
       //显示搜索面板
       showSearch:function(){
         this.$router.push({path:'search'})
+      },
+      //列表分类栏和页面头的距离
+      navOffsetTop(){
+//        console.log('document.getElementsByClassName(\'recom-filter-container\')[0].offsetTop:'+document.getElementsByClassName('recom-filter-container')[0].offsetTop)
+        return document.getElementsByClassName('recom-filter-container')[0].offsetTop/1
       },
       async getNavData(){
         let navlist=await dataO.indexNav(this)
@@ -464,6 +416,7 @@
         window.scrollTo(0,eleTop-3*remO.fontSizeNum)
         //        显示过滤面板
         //        参数currentNavType filterShow filterNav
+
         if(this.currentNavType==param&&(param=='order'||param=='filt')){
           this.filterShow=!this.filterShow
         }else if(param=='order'||param=='filt'){
@@ -482,9 +435,7 @@
       },
 //      改变过滤参数
       chooseFilt:function(param){
-        console.log('param:'+param)
         this.filterParam[param]=!this.filterParam[param]
-        console.log(this.filterParam[param])
           this.filterParam={...this.filterParam}
       },
       clearFilt:function () {
@@ -515,7 +466,6 @@
         this.myLineChart.setOption(this.lineChartOption)
       },
       changePriceNode:function(){
-        console.log('ccccccccc')
       }
     }
   }
@@ -694,17 +644,15 @@ svg{
   .recom{
     width:100%;
     line-height: 2rem;
-    border:1px black solid;
     text-align: center;
   }
 /*首页列表过滤*/
 .recom-filter-container{
   height:2rem;
   .recom-filter{
-    background: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,1);
     width:100%;
     height:2rem;
-    border:1px red solid;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -746,7 +694,6 @@ svg{
 .filter-nav{
   width: 100%;
   /*z-index: 2;*/
-  border:1px blue solid;
   background: rgb(255,255,255);
   svg{
     width:1rem;
@@ -754,7 +701,6 @@ svg{
   }
 }
 .order-filter{
-
   li{
     display: flex;
     width:100%;
