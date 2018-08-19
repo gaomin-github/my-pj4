@@ -16,8 +16,12 @@
       document.addEventListener('scroll',()=>{
         let scrollY=document.documentElement.scrollTop||document.body.scrollTop
         let clientY=document.body.clientHeight;
+//        console.log('scrollY:'+scrollY)
+//        console.log('clientY:'+clientY)
         if(scrollY>clientY){
           this.showBackTop=true
+        }else{
+          this.showBackTop=false
         }
       })
     }
