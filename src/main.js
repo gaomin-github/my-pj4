@@ -4,6 +4,7 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 import App from './AppBak'
 import route from './route'
+import store from './store'
 import remO from '@/config/rem'
 Vue.config.productionTip = false
 remO.fontSizeReset()
@@ -15,5 +16,6 @@ new Vue({
   el: '#app',
   components: { App },
   template: '<App/>',
-  router:route
+  router:route,
+  store:store
 })
