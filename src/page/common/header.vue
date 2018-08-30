@@ -25,11 +25,6 @@
     <section class="head-message" v-if="showSetting">
       <span>123456</span>
     </section>
-    <!--显示登录信息-->
-    <section class="head-login" v-if="showLogin">
-      <span>123456</span>
-      <button @click="toLogin">密码登录</button>
-    </section>
     <slot name="search"></slot>
     <slot name="leftFun"></slot>
     <slot name="rightFun"></slot>
@@ -87,7 +82,7 @@
   height:3rem;
   left:0;
   top:0;
-  z-index: 998;
+  z-index:3;
   display:flex;
   flex-direction: row;
   align-items: center;
@@ -101,9 +96,8 @@
 .fixedStyle{
   position:fixed;
   top:0;
-  background:$blue;
+  background:rgba(23,150,230,1);
 }
-
 .head-back,.head-close{
   position:relative;
   width:2rem;
