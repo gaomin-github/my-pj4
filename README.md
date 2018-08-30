@@ -20,6 +20,6 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
-![Image text](https://github.com/GMfight/my-pj4/screenshot/confirm1.png)
+![Image text](https://github.com/GMfight/my-pj4/blob/master/screenshot/confirm1.png)
 
     
