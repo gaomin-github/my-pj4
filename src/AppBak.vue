@@ -1,7 +1,13 @@
 <template>
 <section class="appbak">
 <svg-icon></svg-icon>
-  <router-view class="app_content"></router-view>
+    <!--<router-view class="app_content" v-if="!$route.meta.keepAlive">-->
+  <!--<router-view class="app_content"></router-view>-->
+    <!--</router-view>-->
+  <keep-alive>
+    <router-view class="app_content" v-if="$route.meta.keepAlive==true"></router-view>
+  </keep-alive>
+  <router-view class="app_content" v-if="!$route.meta.keepAlive"></router-view>
 </section>
 </template>
 <script>
@@ -40,7 +46,7 @@ export default{
   section{
     display: block;
   }
-  .app_content{
+  .app_content,.appbak{
     width:100%;
     height:100%;
   }
