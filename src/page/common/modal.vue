@@ -11,7 +11,6 @@
 <style scoped>
   .modal-container{
     position: fixed;
-    z-index: 999;
     width:100%;
     height:100%;
     background: rgba(0,0,0,0.4);
