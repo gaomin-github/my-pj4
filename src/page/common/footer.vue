@@ -1,10 +1,10 @@
 <template>
   <section class="foot_container">
     <ul>
-      <li>外卖</li>
-      <li>发现</li>
+      <li @click="$emit('changeNav','comshop')">外卖</li>
+      <li @click="$emit('changeNav','search')">发现</li>
       <li>订单</li>
-      <li>我的</li>
+      <li @click="$emit('changeNav','mine')">我的</li>
     </ul>
   </section>
 </template>
@@ -24,6 +24,11 @@
       display: flex;
       flex-direction: row;
       justify-content: space-around;
+      li{
+        color:rgb(80,80,80);
+        line-height: 3rem;
+        font-weight: 600;
+      }
     }
   }
   span,p,i{
