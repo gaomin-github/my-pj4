@@ -21,13 +21,12 @@ npm run build --report
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 <div>
-  <img width="250" height="350" src="https://github.com/GMfight/my-pj4/blob/master/screenshot/index.gif"/>
-  <img width="250" height="350" src="https://github.com/GMfight/my-pj4/blob/master/screenshot/index_filt.gif"/>
-  <img width="250" height="350" src="https://github.com/GMfight/my-pj4/blob/master/screenshot/shop.gif"/>
-
+  <img width="380" height="500" src="https://github.com/GMfight/my-pj4/blob/master/screenshot/index.gif"/>
+  <img width="380" height="500" src="https://github.com/GMfight/my-pj4/blob/master/screenshot/index_filt.gif"/>
+  <img width="380" height="500" src="https://github.com/GMfight/my-pj4/blob/master/screenshot/shop.gif"/>
+  <img width="380" height="500" src="https://github.com/GMfight/my-pj4/blob/master/screenshot/login.gif"/>
+  <img width="380" height="500" src="https://github.com/GMfight/my-pj4/blob/master/screenshot/login2.gif"/>
 </div>
-![Image text](https://github.com/GMfight/my-pj4/blob/master/screenshot/shop.gif)|![Image text](https://github.com/GMfight/my-pj4/blob/master/screenshot/login.gif)
-![Image text](https://github.com/GMfight/my-pj4/blob/master/screenshot/login2.gif)
 
 
     
