@@ -26,7 +26,7 @@
         <p class="search_label">永和大王 满63减4</p>
       </div>
     </page-head>
-    <div class="container" @touchmove="controlScrollHeader" >
+    <div class="container" >
       <section class="fast_nav">
         <ul>
           <li>小龙虾</li>
@@ -64,7 +64,7 @@
       <section class="recom">
         <h4 class="jquerytest">推荐商家</h4>
       </section>
-      <section class="recom-filter-container">
+      <section ref="recom-filter-container" class="recom-filter-container">
         <section class="recom-filter" :class="navFixed?'navFixedStyle':''">
           <li :class="{currentNavStyle:currentNavType=='order',filtStyle:filterShow&&currentNavType=='order'}" @click="chooseNav('order')">
             <span>{{orderParam.value}}</span>
@@ -180,7 +180,7 @@
         </div>
       </modal>
       <section class="shop">
-        <scroll-list :pageSize="5">
+        <scroll-list :pageSize="10">
         </scroll-list>
       </section>
     </div>
@@ -198,6 +198,7 @@
   import echarts from 'echarts'
 //  import $ from 'jquery'
   export default{
+    name:'comshop',
     data:function(){
       return{
         fixShow:true,   //天气栏是否隐藏
@@ -222,6 +223,7 @@
       scrollList
     },
     created:function(){
+
       //处理价格和数量列表
       this.origPriceNum=priceNum.sort((a,b)=>{
         return a.price-b.price
@@ -232,19 +234,21 @@
 //      初始化swiper区域
       obj.initSwiperArea()
 //      监听页面大小变化，调整折线图
-      window.addEventListener('resize',()=>{
-        if(obj.myLineChart) obj.myLineChart.resize()
-        obj.filterShow=false
-      })
+      window.addEventListener('resize',obj.controlLineChart)
 //      监听页面滚动
-      window.addEventListener('scroll',()=>{
-        obj.controlScrollHeader()
-        }
-      )
+      window.addEventListener('scroll',obj.controlScrollHeader)
 //      弹出窗显示后禁止滑动页面
 //      window.addEventListener('wheel',(e)=>{
 //        if(obj.filterShow) e.preventDefault()
 //      })
+    },
+    activated:function(){
+
+    },
+    beforeDestroy:function(){
+      document.removeEventListener('resize',this.controlLineChart)
+      document.removeEventListener('scroll',this.controlScrollHeader)
+      console.log('before Destroy')
     },
     updated:function(){
 //      初始化折线图
@@ -252,11 +256,6 @@
       this.initLineChart()
     },
     watch:{
-//      观察设置的价格节点变化
-      currentPriceNode:function() {
-//        this.curPriceList
-//        this.initLineChart()
-      },
       filterShow:function(){
         if(this.filterShow){
 //          jquery兼用浏览器scroll事件失败
@@ -376,6 +375,8 @@
       //控制头部天气栏和列表导航栏是否显示
       controlScrollHeader:function(){
         let scrollY=document.documentElement.scrollTop||document.body.scrollTop
+//        console.log('scrollY:'+scrollY)
+//        console.log('navoofsettOP:'+this.navOffsetTop())
 //        天气栏
         if(scrollY/remO.fontSizeNum>=4){
           this.fixShow=false
@@ -384,12 +385,17 @@
         }
 //        导航栏
         if(scrollY>=parseInt(this.navOffsetTop()-(remO.fontSizeNum*3)/1)){
-//
           this.navFixed=true
         }else{
           this.navFixed=false
           this.filterShow=false
         }
+      },
+      //页面大小重置时，控制折线图大小
+      controlLineChart(){
+        let obj=this
+        if(obj.myLineChart) obj.myLineChart.resize()
+//        obj.filterShow=false
       },
       //显示搜索面板
       showSearch:function(){
@@ -397,8 +403,9 @@
       },
       //列表分类栏和页面头的距离
       navOffsetTop(){
-//        console.log('document.getElementsByClassName(\'recom-filter-container\')[0].offsetTop:'+document.getElementsByClassName('recom-filter-container')[0].offsetTop)
-        return document.getElementsByClassName('recom-filter-container')[0].offsetTop/1
+        let offsetTop=this.$refs['recom-filter-container'].offsetTop
+//        console.log('offsetTop:'+offsetTop)
+        return offsetTop
       },
       async getNavData(){
         let navlist=await dataO.indexNav(this)
@@ -587,7 +594,7 @@ svg{
   //轮播宣传广告
   .adv-swiper-container{
     position:relative;
-    height:7.3rem;
+    height:7.5rem;
     overflow: hidden;
     .swiper-slide{
       img{
@@ -650,7 +657,8 @@ svg{
 .recom-filter-container{
   height:2rem;
   .recom-filter{
-    background: rgba(255,255,255,1);
+    background: rgb(255,255,255);
+    border-bottom:1px rgb(200,200,200) solid;
     width:100%;
     height:2rem;
     display: flex;
@@ -686,9 +694,11 @@ svg{
 .navFixedStyle{
   position: fixed;
   top:3rem;
+  z-index: 3;
 }
 /*弹出窗底部容器*/
 .modal-container{
+  z-index: 6;
   top:5rem;
 }
 .filter-nav{
