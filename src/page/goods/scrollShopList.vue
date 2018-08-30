@@ -2,8 +2,12 @@
   <div class="shop-list-container">
     <div>
       <section  v-for="item in sellerList" :key="item.shop_id">
-        <router-link :to="{path:'/shopdetail',query:item}" class="shop-list-container-item">
-          <img class="shop-logo" :src="item.shop_logo"/>
+        <router-link :to="{path:'/shop',query:{shop_id:item.shop_id,shop_title:item.shop_title}}" class="shop-list-container-item">
+          <section class="shop-logo">
+            <img :src="item.shop_logo"/>
+            <span v-if="(cartInfo&&cartInfo[item.shop_id])">
+              {{(cartInfo&&cartInfo[item.shop_id])?cartInfo[item.shop_id].order_num:''}}</span>
+          </section>
           <div class="shop-info">
             <div class="shop-info-title">
               <section class="title-left">
@@ -37,13 +41,13 @@
       <p v-if="showLoadingLabel">加载更多</p>
     </div>
     <transition name="load">
-      <!--&lt;!&ndash;<loading></loading>&ndash;&gt;-->
       <loading v-if="showLoadingImage"></loading>
     </transition>
     <backing/>
   </div>
 </template>
 <script>
+  import {mapState,mapMutations} from 'vuex'
   import apiData from '@/config/getApiData'
   import loading from '@/page/plugin/loadingPlugin'
   import backing from '@/page/plugin/backTopPlugin'
@@ -65,29 +69,38 @@ export default {
     backing,
     staring
   },
+  created:function(){
+    this.initCartInfo()
+  },
   mounted:function(){
     let obj=this
-    document.addEventListener('scroll',()=>{
-      let scrollY=document.documentElement.scrollTop||document.body.scrollTop
-      let scrollHeight=document.documentElement.scrollHeight||document.body.scrollHeight
-      let clientY=document.body.clientHeight;
-      if(scrollY+clientY>=scrollHeight){
-        setTimeout(()=>{
-          obj.loadMoreList()
-        },3000)
-      }
-    })
+//    document.addEventListener('scroll',()=>{
+//      let scrollY=document.documentElement.scrollTop||document.body.scrollTop
+//      let scrollHeight=document.documentElement.scrollHeight||document.body.scrollHeight
+//      let clientY=document.body.clientHeight;
+//      if(scrollY+clientY>=scrollHeight){
+//        setTimeout(()=>{
+//          obj.loadMoreList()
+//        },3000)
+//      }
+//    })
     this.loadMoreList()
   },
+  computed:{
+    ...mapState(['cartInfo']),
+    test:function(){
+      console.log('cartInfo')
+      console.log(this.cartInfo)
+    }
+  },
   methods:{
+    ...mapMutations(['initCartInfo']),
     async loadMoreList(){
       let obj=this
       this.showLoadingLabel=false
       this.showLoadingImage=true
       let newList=await apiData.shopList(obj)
       newList=newList.slice(this.curPage*this.pageSize,(this.curPage+1)*this.pageSize)
-//      console.log('newList')
-//      console.log(newList)
       this.sellerList=[...this.sellerList,...newList]
       if(newList&&newList.length==this.pageSize){
         this.showLoadingLabel=true
@@ -101,12 +114,32 @@ export default {
 <style scoped lang="scss">
   @import '../../assets/style/common';
   .shop-list-container{
+    /*border:2px black solid;*/
+    width:100%;
   }
   .shop-list-container-item {
     display: flex;
     width: 100%;
     height: 6rem;
+    box-sizing: border-box;
     padding:0.5rem;
+    .shop-logo{
+      position: relative;
+      span{
+        display: inline-block;
+        position: absolute;
+        top:0;
+        right:0;
+        background-color: red;
+        color:rgb(255,255,255);
+        font-size: .8rem;
+        width:1.4rem;
+        height:1.4rem;
+        line-height: 1.4rem;
+        text-align: center;
+        border-radius: .7rem;
+      }
+    }
     img {
       width: 4.5rem;
       height: 4.5rem;
