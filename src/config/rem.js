@@ -16,10 +16,16 @@ export default{
 
   },
   //监听页面垂直滚动值
-  scrollY:function(){
-    window.addEventListener('scroll',()=>{
-      let scrollTopN=document.documentElement.scrollTop||document.body.scrollTop
-      return scrollTopN;
-    })
-  }
+  // scrollY:function(){
+  //   window.addEventListener('scroll',()=>{
+  //     let scrollTopN=document.documentElement.scrollTop||document.body.scrollTop
+  //     return scrollTopN;
+  //   })
+  // },
+  // scrollHeight:function(){
+  //   window.addEventListener('scroll',()=>{
+  //     let scrollHeight=document.documentElement.scrollHeight||document.body.scrollHeight
+  //     return scrollHeight;
+  //   })
+  // }
 }
