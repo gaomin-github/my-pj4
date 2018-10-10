@@ -1,7 +1,7 @@
 <template>
   <section>
     <keep-alive>
-      <component v-bind:is="currentNav"></component>
+      <component :num="5" v-bind:is="currentNav"></component>
     </keep-alive>
     <!--<com-shop></com-shop>-->
     <page-foot v-on:changeNav="changeNav"></page-foot>
@@ -13,18 +13,24 @@
   import comshop from '@/page/goods/comShop'
   import search from '@/page/common/search'
   import mine from '@/page/user/mine'
+  import wpOrderS from '@/page/wp/wpOrder'
 //  import comShop from '@/page/goods/comShop'
+  import displayMessage from '@/page/eventBus/displayMessage'
+  import moreFun from '@/page/morefun/index'
   export default{
     data:function(){
       return{
-        currentNav:'comshop'
+        currentNav:'moreFun'
       }
     },
     components:{
       pageFoot,
       comshop,
       search,
-      mine
+      mine,
+      wpOrders:wpOrderS,
+      displaymessage:displayMessage,
+      moreFun
     },
     created:function(){
 //      console.log('created===========')
