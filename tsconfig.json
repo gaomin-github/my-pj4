@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "./built/",
+    "sourceMap": true,
+    "strict": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "es2017",
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "strictPropertyInitialization":false
+  },
+  "include": [
+    "./src/**/*"
+  ]
+}
